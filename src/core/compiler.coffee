@@ -4,7 +4,7 @@ zlib = require 'zlib'
 
 fsu = require 'fs-util'
 path = require 'path'
-humanize = require 'humanize'
+filesize = require 'filesize'
 
 files = require './files'
 server = require './server'
@@ -215,7 +215,7 @@ exports.build_css = (notify) ->
   exports.notify config.output.css if notify
 
 exports.notify = ( filepath, done )->
-  fsize = humanize.filesize fs.statSync(filepath).size
+  fsize = filesize fs.statSync(filepath).size
 
   if not argv.release
     log_compiled "#{filepath} (#{fsize})"
@@ -223,7 +223,7 @@ exports.notify = ( filepath, done )->
 
   zlib.gzip fs.readFileSync(filepath, 'utf-8'), (err, gzip)->
     fs.writeFileSync filepath + '.tmp.gzip', gzip
-    gsize = humanize.filesize fs.statSync(filepath + '.tmp.gzip').size
+    gsize = filesize fs.statSync(filepath + '.tmp.gzip').size
     log_compiled "#{filepath} (#{fsize}) (#{gsize} gzipped)"
     fs.unlinkSync filepath + '.tmp.gzip'
     done?()
