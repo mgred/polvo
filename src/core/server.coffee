@@ -2,6 +2,7 @@ path = require 'path'
 fs = require 'fs'
 
 connect = require 'connect'
+serve_static = require 'serve-static'
 io = require 'socket.io'
 
 dirs = require '../utils/dirs'
@@ -21,7 +22,7 @@ module.exports = ->
 
   # simple static server with 'connect'
   app = connect()
-    .use( connect.static root )
+    .use( serve_static root )
     .use( (req, res)->
       if ~(req.url.indexOf '.')
         res.statusCode = 404
