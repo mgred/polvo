@@ -37,8 +37,8 @@ split_loader_path = path.join helpers_path, 'split.loader.js'
 split_loader = fs.readFileSync split_loader_path, 'utf-8'
 
 # auto reload
-io_path = path.join dirs.root, 'node_modules', 'socket.io', 'node_modules'
-io_path = path.join io_path, 'socket.io-client', 'dist', 'socket.io.js'
+#io_path = path.join dirs.root, 'node_modules', 'socket.io', 'node_modules'
+io_path = path.join dirs.root, 'node_modules', 'socket.io-client', 'dist', 'socket.io.js'
 reloader_path = loader_path.replace 'loader.js', 'reloader.js'
 
 auto_reload = fs.readFileSync io_path, 'utf-8'
@@ -244,7 +244,7 @@ get_split_base_dir = (files)->
       all = true
 
       for f in files
-        all and = f.filepath.indexOf(start) is 0
+        all and all = f.filepath.indexOf(start) is 0
 
       if all
         tokens[part] = buffer.push part
