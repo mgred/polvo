@@ -39,6 +39,7 @@ module.exports = class File extends MicroEvent
   compiler: null
 
   constructor:(@filepath)->
+    super()
     @relativepath = dirs.relative @filepath
     @compiler = @get_compiler()
     {@type, @output} = @compiler
