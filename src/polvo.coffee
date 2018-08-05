@@ -2,6 +2,7 @@
   handleUncaughtExceptions: false
 
 module.exports = (options, io)->
+  console.log options, io
 
   if options?
     global.cli_options = options
@@ -18,10 +19,7 @@ module.exports = (options, io)->
   {argv} = cli
   {error, warn, info, debug, log} = logger
 
-  if argv.version
-    return log version
-
-  else if argv.compile or argv.watch or argv.release
+  if argv.compile or argv.watch or argv.release
 
     config = require './utils/config'
 

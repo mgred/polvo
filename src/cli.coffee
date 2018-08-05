@@ -1,4 +1,5 @@
 optimist = require 'optimist'
+program = require 'commander'
 colors = require 'colors'
 
 version = require './utils/version'
@@ -28,6 +29,19 @@ if cli_options?
 else
   options = process.argv.slice 0
 
+program
+  .version version, '-v, --version'
+  .option '-w, --watch', 'Start watching/compiling in dev mode'
+  .option '-c, --compile', 'Compile project in development mode'
+  .option '-r, --release', 'Compile project in release mode'
+  .option '-s, --server', 'Serves project statically, options in config file'
+  .option '-f, --config-file <path>', 'Path to a different config file'
+  .option '-b, --base <path>', 'Path to app\'s root folder (when its not the current)'
+  .option '-x, --split', 'Compile files individually - useful for tests coverage'
+  .on '--help', -> console.log examples
+  .parse process.argv
+
+###
 optimistic = optimist( options ).usage( usage )
   .alias('w', 'watch')
   .boolean( 'w' )
@@ -67,6 +81,7 @@ optimistic = optimist( options ).usage( usage )
 
 
 exports.argv = optimistic.argv
+###
+exports.argv = program
 
-exports.help = ->
-  "#{optimistic.help()}\n#{examples}"
+exports.help = program.help.bind program
