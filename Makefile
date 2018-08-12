@@ -16,6 +16,9 @@ JS_LIB = $(CS_SRC:$(SRC)/%.coffee=$(LIB)/%.js)
 
 POLVO=bin/polvo
 
+build: $(POLVO) $(LIB)
+	chmod +x $<
+
 
 $(LIB): $(JS_LIB)
 $(LIB)/%.js: $(SRC)/%.coffee
@@ -36,8 +39,8 @@ setup:
 watch:
 	@$(CS) -bwmco lib src
 
-build:
-	@$(CS) -bmco lib src
+#build:
+	#@$(CS) -bmco lib src
 
 test.clean:
 	@git clean -fdx tests/fixtures
