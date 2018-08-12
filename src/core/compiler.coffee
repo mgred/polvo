@@ -42,6 +42,7 @@ io_path = path.join dirs.root, 'node_modules', 'socket.io-client', 'dist', 'sock
 reloader_path = loader_path.replace 'loader.js', 'reloader.js'
 
 auto_reload = fs.readFileSync io_path, 'utf-8'
+auto_reload += '\n'
 auto_reload += fs.readFileSync reloader_path, 'utf-8'
 
 source_maps_header = """
