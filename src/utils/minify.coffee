@@ -2,10 +2,10 @@ CleanCSS = require 'clean-css'
 uglify = require 'uglify-js'
 
 exports.js = ( uncompressed )->
-  ast = uglify.parse uncompressed
-  stream = uglify.OutputStream()
-  ast.print stream
-  compiled = stream.toString()
+  # TODO: Ugify does not handle any errors. They appear
+  # in `result.error` and need to be handles manually.
+  result = uglify.minify uncompressed
+  result.code
 
 exports.css = ( uncompressed )->
   new CleanCSS().minify uncompressed
