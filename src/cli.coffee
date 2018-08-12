@@ -1,4 +1,5 @@
 optimist = require 'optimist'
+yargs = require 'yargs'
 colors = require 'colors'
 
 version = require './utils/version'
@@ -28,7 +29,7 @@ if cli_options?
 else
   options = process.argv.slice 0
 
-optimistic = optimist( options ).usage( usage )
+optimistic = yargs( options ).usage( usage )
   .alias('w', 'watch')
   .boolean( 'w' )
   .describe('w', "Start watching/compiling in dev mode")
