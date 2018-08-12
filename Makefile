@@ -8,9 +8,24 @@ MOCHA=node_modules/mocha/bin/mocha
 _MOCHA=node_modules/mocha/bin/_mocha
 COVERALLS=node_modules/coveralls/bin/coveralls.js
 
+SRC = ./src
+LIB = ./lib
+CS_SRC = $(wildcard $(SRC)/*.coffee) $(wildcard $(SRC)/**/*.coffee)
+JS_LIB = $(CS_SRC:$(SRC)/%.coffee=$(LIB)/%.js)
+
 
 POLVO=bin/polvo
 
+
+$(LIB): $(JS_LIB)
+$(LIB)/%.js: $(SRC)/%.coffee
+	$(CS) -bmco $@ $?
+
+install:
+	npm link
+
+clean:
+	rm -rf $(LIB)
 
 
 setup:
@@ -90,4 +105,4 @@ re-publish:
 
 
 
-.PHONY: build
+.PHONY: build clean
