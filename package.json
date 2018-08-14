@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "coffeescript": "^2.3.1",
-    "mversion": "0.3.x"
+    "mversion": "0.3.x",
+    "tape": "^4.9.1"
   }
 }

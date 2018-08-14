@@ -30,6 +30,13 @@ install:
 clean:
 	rm -rf $(LIB)
 
+test: $(shell find $(SRC) -name "*.spec.coffee")
+	cat $? | ./node_modules/.bin/coffee -r 'coffeescript/register' -sbe
+
+
+#@for test in $?; do \
+	cat $$test | ./node_modules/.bin/coffee -r 'coffeescript/register' -sbe; \
+done
 
 setup:
 	@npm link
@@ -52,8 +59,8 @@ test.dependencies:
 	@cd tests/fixtures/package-systems && component install
 
 
-test: build
-	@$(MOCHA) --compilers coffee:coffee-script \
+#test: build
+	#@$(MOCHA) --compilers coffee:coffee-script \
 		--ui bdd \
 		--reporter spec \
 		--recursive \
