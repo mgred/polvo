@@ -1,5 +1,5 @@
 test = require 'tape'
-cli = require './src/cli'
+cli = require './cli'
 
 test 'argv', (t)->
   t.plan 1

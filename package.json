@@ -56,6 +56,10 @@
   "devDependencies": {
     "coffeescript": "^2.3.1",
     "mversion": "0.3.x",
+    "nyc": "^12.0.2",
+    "proxyquire": "^2.0.1",
+    "sinon": "^6.1.5",
+    "tap-dot": "^2.0.0",
     "tape": "^4.9.1"
   }
 }
