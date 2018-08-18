@@ -24,8 +24,9 @@ VERSION	= $(shell grep \"version\" package.json \
 
 # Run all prerequesites as tests
 define test-run =
-node --require 'coffeescript/register' --require 'tape/bin/tape' $?
+$(BIN)/ts-node --require 'tape/bin/tape' $?
 endef
+#node --require 'coffeescript/register' --require 'tape/bin/tape' $?
 
 
 POLVO=bin/polvo
@@ -54,11 +55,10 @@ test.cov: $(SPECS) ## Run all tests and generate coverage
 		--source-map \
 		--exclude-after-remap \
 		--reporter text \
-		--extension '.coffee' \
-		--require 'coffeescript/register' \
-		--include 'src/**/*.coffee' \
-		--exclude 'src/**/*.spec.coffee' \
-		$(TAPE) $?
+		--extension '.ts' \
+		--include 'src/**/*.ts' \
+		--exclude 'src/**/*.spec.ts' \
+		$(test-run)
 
 help: ## Show this help message
 	@echo "Polvo $(VERSION) - Makefile\n"
