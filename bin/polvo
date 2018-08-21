@@ -1,3 +1,8 @@
 #!/usr/bin/env node
 
-new (require(require('path').join(__dirname, '..', 'lib', 'polvo')));
+const path = require('path');
+const lib = path.join(__dirname, '..', 'lib');
+const cli = require(lib + '/cli');
+
+require(lib + 'polvo')(cli.argv);
+//new (require(require('path').join(__dirname, '..', 'lib', 'polvo')));
