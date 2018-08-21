@@ -8,8 +8,8 @@ import { argv } from '../cli';
 export let root = path.join(__dirname, '..', '..');
 
 if (argv.base != null) {
-  if (!fs.existsSync(pwd = path.resolve(argv.base))) {
-    error('Dir informed with [--base] option doesn\'t exist ~>', argv.base);
+  if (!fs.existsSync((pwd = path.resolve(argv.base)))) {
+    error("Dir informed with [--base] option doesn't exist ~>", argv.base);
     pwd = null;
   }
 } else {

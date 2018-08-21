@@ -8,24 +8,24 @@ let resolve = sinon.spy((x: any) => x);
 let existsSync = sinon.stub();
 let error = sinon.spy();
 let logger = () => ({ error });
-let mockDependencies = function (argv: any, baseExists = false) {
+let mockDependencies = function(argv: any, baseExists = false) {
   let deps;
   resolve.resetHistory();
-  return deps = {
+  return (deps = {
     './logger': logger,
     '../cli': { argv },
     path: { relative, resolve, join },
     fs: { existsSync: existsSync.returns(baseExists) }
-  };
+  });
 };
 
-test('root', function (t) {
+test('root', function(t) {
   let dirs = proxyquire.noCallThru()('./dirs', mockDependencies({}, true));
   t.plan(1);
   return t.ok(join.calledOnceWithExactly(__dirname, '..', '..'));
 });
 
-test('pwd, when argv.base is given and exists', function (t) {
+test('pwd, when argv.base is given and exists', function(t) {
   let base = 'test';
   let dirs = proxyquire('./dirs', mockDependencies({ base }, true));
   t.plan(2);
@@ -33,7 +33,7 @@ test('pwd, when argv.base is given and exists', function (t) {
   return t.equals(dirs.pwd, base, 'pwd === base');
 });
 
-test('pwd, when argv.base is given and does not exist', function (t) {
+test('pwd, when argv.base is given and does not exist', function(t) {
   let base = 'test';
   let dirs = proxyquire('./dirs', mockDependencies({ base }));
   t.plan(2);
@@ -41,15 +41,18 @@ test('pwd, when argv.base is given and does not exist', function (t) {
   return t.equals(dirs.pwd, null, 'dirs.pwd === null');
 });
 
-test('pwd, when argv.base is not given', function (t) {
+test('pwd, when argv.base is not given', function(t) {
   let dirs = proxyquire('./dirs', mockDependencies({}));
   t.plan(1);
-  return t.equals(dirs.pwd, '.', 'pwd === \'.\'');
+  return t.equals(dirs.pwd, '.', "pwd === '.'");
 });
 
-test('relative', function (t) {
+test('relative', function(t) {
   let dirs = proxyquire('./dirs', mockDependencies({}));
   dirs.relative('test');
   t.plan(1);
-  return t.ok(relative.calledOnceWithExactly('.', 'test'), 'path.relative was called');
+  return t.ok(
+    relative.calledOnceWithExactly('.', 'test'),
+    'path.relative was called'
+  );
 });

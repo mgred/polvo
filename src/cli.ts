@@ -5,11 +5,11 @@ import * as version from './utils/version';
 import { readConfig } from './utils/config_';
 
 let usage = `\
-Polvo ${ `v${ version }`.grey }
-${ 'Polyvalent cephalopod mollusc'.grey }
+Polvo ${`v${version}`.grey}
+${'Polyvalent cephalopod mollusc'.grey}
 
-${ 'Usage:' }
-  polvo [${ 'options'.green }] [${ 'params'.green }]\
+${'Usage:'}
+  polvo [${'options'.green}] [${'params'.green}]\
 `;
 
 let examples = `\
@@ -26,28 +26,28 @@ export const cli = yargs(process.argv.slice(0))
 
   .alias('w', 'watch')
   .boolean('w')
-  .describe('w', "Start watching/compiling in dev mode")
-  
+  .describe('w', 'Start watching/compiling in dev mode')
+
   .alias('c', 'compile')
   .boolean('c')
-  .describe('c', "Compile project in development mode")
-  
+  .describe('c', 'Compile project in development mode')
+
   .alias('r', 'release')
   .boolean('r')
-  .describe('r', "Compile project in release mode")
-  
+  .describe('r', 'Compile project in release mode')
+
   .alias('s', 'server')
   .boolean('s')
-  .describe('s', "Serves project statically, options in config file")
+  .describe('s', 'Serves project statically, options in config file')
 
   .alias('f', 'config-file')
   .string('f')
-  .describe('f', "Path to a different config file")
+  .describe('f', 'Path to a different config file')
   .coerce('f', readConfig)
 
   .alias('b', 'base')
   .string('b')
-  .describe('b', 'Path to app\'s root folder (when its not the current)')
+  .describe('b', "Path to app's root folder (when its not the current)")
   .coerce('b', path.resolve)
   .default('b', path.resolve('.'))
 
@@ -61,7 +61,6 @@ export const cli = yargs(process.argv.slice(0))
   .example('$0 -ws', 'Compile/Watch all files, serve them locally')
   .example('$0 -wsf custom-config-file.yml', '... with a custom config');
 
-
 export function help() {
-  return `${ cli.showHelp() }\n${ examples }`;
+  return `${cli.showHelp()}\n${examples}`;
 }

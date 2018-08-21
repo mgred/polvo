@@ -12,7 +12,7 @@ let deps = {
 
 let plugins = proxyquire('./plugins', deps);
 
-test('get_plugin_manifest, when the manifest exists', function (t) {
+test('get_plugin_manifest, when the manifest exists', function(t) {
   let manifest = plugins.get_plugin_manifest('x', 'x');
   t.plan(1);
   return t.ok(join.calledWithExactly('x', 'node_modules', 'x', 'package.json'));

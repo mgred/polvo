@@ -4,7 +4,7 @@ import * as path from 'path';
 import { Config } from '../Config';
 import { defaultsDeep } from 'lodash';
 
-export const CONFIG:  Config = {
+export const CONFIG: Config = {
   alias: {},
   input: [],
   minify: {
@@ -14,13 +14,13 @@ export const CONFIG:  Config = {
   output: {},
   server: {
     port: 3000
-  },
+  }
 };
 
 export function readConfig(file: string): Config {
   if (fs.existsSync(file)) {
     if (fs.statSync(file).isDirectory()) {
-      throw new Error('Config file\'s path is a directory  ~>' + file);
+      throw new Error("Config file's path is a directory  ~>" + file);
     }
     const config_contents = fs.readFileSync(file, 'utf8');
     return (yaml.safeLoad(config_contents) || {}) as Config;
@@ -32,24 +32,21 @@ export function parseConfig(config: Config, options: any) {
   // merge defaults
   config = defaultsDeep({}, config, CONFIG);
 
-  const {
-    server,
-    input,
-    output } = config;
+  const { server, input, output } = config;
 
   // server
-  if(options.server) {
+  if (options.server) {
     const root = path.join(options.base, server.root || '');
-    fs.existsSync(root) && (server.root = root)
-      || new Error(`${root} does not exist`)
+    (fs.existsSync(root) && (server.root = root)) ||
+      new Error(`${root} does not exist`);
   }
 
   // input
-  if(Array.isArray(input) && !!input.length) {
+  if (Array.isArray(input) && !!input.length) {
     // all inputs must be an existing path
-    for(const i in input) {
+    for (const i in input) {
       const inputPath = path.join(options.base, input[i]);
-      if(!fs.existsSync(inputPath)) {
+      if (!fs.existsSync(inputPath)) {
         // error input path does not exist
       }
       input[i] = inputPath;
@@ -57,12 +54,12 @@ export function parseConfig(config: Config, options: any) {
   }
 
   // Output
-  if(output && typeof output === 'object') {
-    for(const o in ['css', 'js']) {
+  if (output && typeof output === 'object') {
+    for (const o in ['css', 'js']) {
       const p = path.join(options.base, o);
-      output[o]
-        && fs.existsSync(path.dirname(p))
-        && (output[o] = parseOutputPath(p))
+      output[o] &&
+        fs.existsSync(path.dirname(p)) &&
+        (output[o] = parseOutputPath(p));
     }
   } else {
     // error no output was specified
@@ -78,7 +75,7 @@ function parseOutputPath(outputPath: string): string | undefined {
   while ((res = reg.exec(outputPath)) != null) {
     const [all, key] = Array.from(res);
     const var_ = process.env[key];
-    if(!!var_) {
+    if (!!var_) {
       outputPath = outputPath.replace(all, var_);
     }
   }

@@ -21,7 +21,7 @@ let log_deleted = logger.file.deleted;
 
 import File = require('./file');
 
-export default new (Files = function () {
+export default new (Files = (function() {
   let exts = undefined;
   Files = class Files {
     prototype;
@@ -29,7 +29,6 @@ export default new (Files = function () {
     watchers;
 
     static initClass() {
-
       exts = Array.from(plugins).map(plugin => plugin.ext);
 
       this.prototype.files = null;
@@ -74,11 +73,11 @@ export default new (Files = function () {
         return;
       }
 
-      if (file = _.find(this.files, { filepath })) {
+      if ((file = _.find(this.files, { filepath }))) {
         return file;
       }
 
-      this.files.push(file = new File(filepath));
+      this.files.push((file = new File(filepath)));
       file.on('new:dependencies', this.bulk_create_file);
       file.on('refresh:dependents', this.refresh_dependents);
       file.init();
@@ -143,7 +142,7 @@ export default new (Files = function () {
 
       if (watched == null) {
         let watcher;
-        this.watchers.push(watcher = fsu.watch(dir));
+        this.watchers.push((watcher = fsu.watch(dir)));
         watcher.on('create', file => this.onfschange('create', file));
         watcher.on('change', file => this.onfschange('change', file));
         return watcher.on('delete', file => this.onfschange('delete', file));
@@ -156,7 +155,7 @@ export default new (Files = function () {
 
         if (watched == null) {
           var watcher;
-          this.watchers.push(watcher = fsu.watch(dirpath, exts));
+          this.watchers.push((watcher = fsu.watch(dirpath, exts)));
           watcher.on('create', file => this.onfschange('create', file));
           watcher.on('change', file => this.onfschange('change', file));
           watcher.on('delete', file => this.onfschange('delete', file));
@@ -173,29 +172,26 @@ export default new (Files = function () {
       let dname, dpath, f;
       let { location, type } = file;
 
-      if (type === "dir" && action === "create") {
+      if (type === 'dir' && action === 'create') {
         return;
       }
-      if (type === "dir" && action === "delete") {
+      if (type === 'dir' && action === 'delete') {
         return;
       }
 
       switch (action) {
-
-        case "create":
+        case 'create':
           file = this.create_file(location);
           log_created(location);
           return this.compile(file);
 
-        case "delete":
-
+        case 'delete':
           log_deleted(location);
           file = this.extract_file(location);
 
           // check if file's dependencies are used by other files or if them is
           // under a source or mapped folder
           for (let depname in file.dependencies) {
-
             // if it is under input folders, skip and continue
             let depath = file.dependencies[depname];
             if (this.is_under_inputs(depath, true)) {
@@ -242,13 +238,13 @@ export default new (Files = function () {
           // restart compilation process
           return this.compile(file);
 
-        case "change":
+        case 'change':
           file = _.find(this.files, { filepath: location });
           log_changed(location);
 
           // THIS PROBLEM HAS BEEN RESOLVED (APPARENTLY) - will be kept here for
           // a little more to confirm.
-          // 
+          //
           // if file is null
           //   msg = "Change file is apparently null, it shouldn't happened.\n"
           //   msg += "Please report this at the repo issues section."
@@ -272,4 +268,4 @@ export default new (Files = function () {
   };
   Files.initClass();
   return Files;
-}())();
+})())();

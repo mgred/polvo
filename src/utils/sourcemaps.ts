@@ -4,7 +4,6 @@ import * as dirs from './dirs';
 import * as config from './config';
 
 export function assemble(files) {
-
   // main source map root node
   let map = {
     version: 3,
@@ -13,7 +12,6 @@ export function assemble(files) {
   };
 
   for (let file of Array.from(files)) {
-
     // source map sections (file's nodes)
     if (file.source_map != null) {
       map.sections.push({

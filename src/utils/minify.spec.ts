@@ -8,12 +8,12 @@ const uglify = { minify };
 minify.withArgs('js').returns({ code: 'test' });
 minify.withArgs('css').returns('test');
 
-const mockModule = function () {
+const mockModule = function() {
   minify.resetHistory();
   return proxyquire('./minify', { 'clean-css': cleancss, 'uglify-js': uglify });
 };
 
-test('js', function (t) {
+test('js', function(t) {
   const min = mockModule();
   const result = min.js('js');
   t.plan(2);
@@ -21,7 +21,7 @@ test('js', function (t) {
   t.equals(result, 'test', 'the result matches');
 });
 
-test('css', function (t) {
+test('css', function(t) {
   const min = mockModule();
   const result = min.css('css');
   t.plan(3);

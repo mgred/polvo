@@ -21,7 +21,7 @@ let deps = {
 
 let sourcemaps = proxyquire('./sourcemaps', deps);
 
-test('assemble, if no files are given', function (t) {
+test('assemble, if no files are given', function(t) {
   sourcemaps.assemble([]);
   t.plan(1);
   return t.ok(basename.calledOnceWithExactly('test'));

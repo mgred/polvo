@@ -5,13 +5,13 @@ import fsu = require('fs-util');
 import dirs = require('../utils/dirs');
 import config = require('../utils/config');
 
-export default components = [];
+export default (components = []);
 
 // - walk up dir tree searching for some `component.json` manifest file
 // - if manifest is found, checks for a sibling `components` folder
 // - if found, search for every `component.json` manifes file inside of it
 // - returns the found manifests or an empty array
-let find_manifests = function () {
+let find_manifests = function() {
   let base = path.join(dirs.pwd);
 
   while (base !== '/') {
@@ -37,7 +37,7 @@ let manifests = find_manifests();
 for (let manifest_path of Array.from(manifests)) {
   var manifest;
   let comp_folder = path.dirname(manifest_path);
-  let { name } = manifest = require(manifest_path);
+  let { name } = (manifest = require(manifest_path));
 
   // creating component aliases
   config.alias[name] = dirs.relative(comp_folder);

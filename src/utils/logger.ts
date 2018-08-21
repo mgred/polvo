@@ -5,7 +5,7 @@ import colors = require('colors');
 
 let dirs = null;
 
-let log_to_stdout = function (args) {
+let log_to_stdout = function(args) {
   args = [].concat(args);
 
   if (typeof __stdout !== 'undefined' && __stdout !== null) {
@@ -19,7 +19,7 @@ let log_to_stdout = function (args) {
   }
 };
 
-let log_to_stderr = function (args) {
+let log_to_stderr = function(args) {
   args = [].concat(args);
 
   if (typeof __stderr !== 'undefined' && __stderr !== null) {
@@ -33,7 +33,7 @@ let log_to_stderr = function (args) {
   }
 };
 
-export default function (alias) {
+export default function(alias) {
   if (alias == null) {
     alias = '';
   }
@@ -66,20 +66,20 @@ export default function (alias) {
 
     file: {
       created(filepath) {
-        return log_to_stdout(`+ ${ dirs.relative(filepath) }`.green);
+        return log_to_stdout(`+ ${dirs.relative(filepath)}`.green);
       },
 
       changed(filepath) {
-        return log_to_stdout(`• ${ dirs.relative(filepath) }`.yellow);
+        return log_to_stdout(`• ${dirs.relative(filepath)}`.yellow);
       },
 
       deleted(filepath) {
-        return log_to_stdout(`- ${ dirs.relative(filepath) }`.red);
+        return log_to_stdout(`- ${dirs.relative(filepath)}`.red);
       },
 
       compiled(filepath) {
-        return log_to_stdout(`✓ ${ dirs.relative(filepath) }`.cyan);
+        return log_to_stdout(`✓ ${dirs.relative(filepath)}`.cyan);
       }
     }
   };
-};
+}

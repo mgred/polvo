@@ -20,8 +20,7 @@ let mod_manifests = 'package.json component.json bower.json'.split(' ');
 
 // resolve the given id relatively to the current filepath
 // ------------------------------------------------------------------------------
-export default function (filepath, id) {
-
+export default function(filepath, id) {
   // removes js extension to normalize id
   let file;
   id = id.replace(/\.js$/m, '');
@@ -43,14 +42,13 @@ export default function (filepath, id) {
 
   // otherwise show error
   let caller = path.relative(dirs.pwd, filepath);
-  error(`Module '${ id }' not found for '${ caller }'`);
+  error(`Module '${id}' not found for '${caller}'`);
   return id;
-};
+}
 
 // Resolves the required id/path
 // ------------------------------------------------------------------------------
-var resolve_id = function (kind, manifest, filepath, id) {
-
+var resolve_id = function(kind, manifest, filepath, id) {
   // for globals, always go on for module
   let file;
   if (id[0] !== '.') {
@@ -70,12 +68,12 @@ var resolve_id = function (kind, manifest, filepath, id) {
   }
 
   // file.js
-  if (file = resolve_file(idpath)) {
+  if ((file = resolve_file(idpath))) {
     return file;
   }
 
   // module
-  if (file = resolve_module(kind, manifest, idpath)) {
+  if ((file = resolve_module(kind, manifest, idpath))) {
     return file;
   }
 
@@ -85,7 +83,7 @@ var resolve_id = function (kind, manifest, filepath, id) {
 
 // tries to get the file by its name
 // ------------------------------------------------------------------------------
-var resolve_file = function (filepath) {
+var resolve_file = function(filepath) {
   for (let ext of Array.from(exts)) {
     let tmp = filepath;
     tmp = tmp.replace(ext, '');
@@ -99,7 +97,7 @@ var resolve_file = function (filepath) {
 
 // tries to get the index file inside a directory
 // ------------------------------------------------------------------------------
-let resolve_index = function (dirpath) {
+let resolve_index = function(dirpath) {
   // if dirpath?
   let filepath = path.join(dirpath, 'index');
   for (let ext of Array.from(exts)) {
@@ -113,8 +111,7 @@ let resolve_index = function (dirpath) {
 };
 
 // ------------------------------------------------------------------------------
-var resolve_module = function (kind, manifest, filepath, id) {
-
+var resolve_module = function(kind, manifest, filepath, id) {
   let file, nmods, non_recurse;
   if (id == null) {
     id = '';
@@ -156,11 +153,9 @@ var resolve_module = function (kind, manifest, filepath, id) {
   let mod = path.join(nmods, id);
   let json = path.join(mod, manifest);
   if (json && fs.existsSync(json)) {
-
     // tries to get the main entry in manifest
     let { main } = require(json);
     if (main != null) {
-
       // trying to get it as is
       main = path.join(path.dirname(json), main);
       if ((file = resolve_file(main)) != null) {
@@ -200,7 +195,7 @@ var resolve_module = function (kind, manifest, filepath, id) {
 
 // searches for the closest node_modules folder in the parent dirs
 // ------------------------------------------------------------------------------
-var closest_mod_folder = function (kind, filepath) {
+var closest_mod_folder = function(kind, filepath) {
   let tmp;
   if (path.extname(filepath) !== '') {
     if (!fs.lstatSync(filepath).isDirectory()) {

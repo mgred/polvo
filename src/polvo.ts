@@ -2,10 +2,9 @@ import { install } from 'source-map-support';
 import { build, release } from './core/compiler';
 import server from './core/server';
 
-install({handleUncaughtExceptions: false });
+install({ handleUncaughtExceptions: false });
 
-export default function (options, io) {
-
+export default function(options, io) {
   if (options.compile || options.watch) {
     build();
     if (options.server) {

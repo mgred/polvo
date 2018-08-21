@@ -32,8 +32,7 @@ export function dependents(file, filepath, raw) {
   return file.compiler.resolve_dependents(file.filepath, files);
 }
 
-var filter_dependencies = function (node, found) {
-
+var filter_dependencies = function(node, found) {
   let item;
   if (found == null) {
     found = [];
@@ -51,9 +50,17 @@ var filter_dependencies = function (node, found) {
 
   if (node instanceof Object) {
     let is_exp = (node != null ? node.type : undefined) === 'CallExpression';
-    let is_idf = __guard__(node != null ? node.callee : undefined, x => x.type) === 'Identifier';
-    let is_req = __guard__(node != null ? node.callee : undefined, x1 => x1.name) === 'require';
-    let is_lit = __guard__(__guard__(node != null ? node.arguments : undefined, x3 => x3[0]), x2 => x2.type) === 'Literal';
+    let is_idf =
+      __guard__(node != null ? node.callee : undefined, x => x.type) ===
+      'Identifier';
+    let is_req =
+      __guard__(node != null ? node.callee : undefined, x1 => x1.name) ===
+      'require';
+    let is_lit =
+      __guard__(
+        __guard__(node != null ? node.arguments : undefined, x3 => x3[0]),
+        x2 => x2.type
+      ) === 'Literal';
 
     if (is_exp && is_idf && is_req && is_lit) {
       found.push(node.arguments[0].value);
@@ -63,5 +70,7 @@ var filter_dependencies = function (node, found) {
   return found;
 };
 function __guard__(value, transform) {
-  return typeof value !== 'undefined' && value !== null ? transform(value) : undefined;
+  return typeof value !== 'undefined' && value !== null
+    ? transform(value)
+    : undefined;
 }

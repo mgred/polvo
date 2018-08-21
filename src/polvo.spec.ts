@@ -1,8 +1,10 @@
 import test = require('tape');
 import sinon = require('sinon');
 
-let proxyquire = require('proxyquire').noCallThru().noPreserveCache();
-let mockDependencies = function (deps, s) {
+let proxyquire = require('proxyquire')
+  .noCallThru()
+  .noPreserveCache();
+let mockDependencies = function(deps, s) {
   if (s == null) {
     s = require('sinon');
   }
@@ -25,14 +27,21 @@ let depMocks = {
 
 let { build, log, release, server } = mockDependencies(depMocks);
 
-let options = [{ compile: true }, { watch: true }, { release: true }, { compile: true, server: true }, { watch: true, server: true }, { release: true, server: true }];
+let options = [
+  { compile: true },
+  { watch: true },
+  { release: true },
+  { compile: true, server: true },
+  { watch: true, server: true },
+  { release: true, server: true }
+];
 
-test('dummy', function (t) {
+test('dummy', function(t) {
   t.plan(1);
   return t.ok(true);
 });
 
-test('help', function (t) {
+test('help', function(t) {
   ({ log } = mockDependencies({ log() {} }));
   let help = sinon.stub().returns('test');
   let deps = {
@@ -49,7 +58,7 @@ test('help', function (t) {
   return t.ok(log.calledOnceWith('test'));
 });
 
-test('version', function (t) {
+test('version', function(t) {
   ({ log } = mockDependencies(depMocks));
   let deps = {
     './cli': { argv: { version: true } },
@@ -65,34 +74,35 @@ test('version', function (t) {
   return t.ok(log.calledOnceWith('test'));
 });
 
-let testCliArgs = o => function (t) {
-  //sandbox = sinon.createSandbox()
-  ({ build, release, server } = mockDependencies(depMocks));
-  let deps = {
-    './cli': { argv: o },
-    './utils/config': {},
-    './core/compiler': { build, release },
-    './core/server': server
+let testCliArgs = o =>
+  function(t) {
+    //sandbox = sinon.createSandbox()
+    ({ build, release, server } = mockDependencies(depMocks));
+    let deps = {
+      './cli': { argv: o },
+      './utils/config': {},
+      './core/compiler': { build, release },
+      './core/server': server
+    };
+
+    let polvo = proxyquire('./polvo', deps);
+
+    t.plan(Object.keys(o).length);
+
+    polvo();
+
+    if (o.compile || o.watch) {
+      t.ok(build.calledOnce, 'compiler.build()');
+      if (o.server) {
+        return t.ok(server.calledImmediatelyAfter(build), 'server()');
+      }
+    } else if (o.release) {
+      t.ok(release, 'release()');
+      if (o.server) {
+        return t.ok(server.calledImmediatelyAfter(release), 'server()');
+      }
+    }
   };
-
-  let polvo = proxyquire('./polvo', deps);
-
-  t.plan(Object.keys(o).length);
-
-  polvo();
-
-  if (o.compile || o.watch) {
-    t.ok(build.calledOnce, 'compiler.build()');
-    if (o.server) {
-      return t.ok(server.calledImmediatelyAfter(build), 'server()');
-    }
-  } else if (o.release) {
-    t.ok(release, 'release()');
-    if (o.server) {
-      return t.ok(server.calledImmediatelyAfter(release), 'server()');
-    }
-  }
-};
 //sandbox.restore()
 
 for (let o of Array.from(options)) {
