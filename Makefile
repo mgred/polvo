@@ -47,7 +47,10 @@ clean: ## Remove the output directory
 	rm -rf $(LIB)
 
 style: $(TS_ALL) ## Format code
-	$(STYLE) --write $?
+	$(STYLE) \
+		--write \
+		--no-color \
+	 	$?
 
 
 test: $(SPECS) ## Run all tests with tap-dot output
