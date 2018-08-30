@@ -1,5 +1,5 @@
-import CleanCSS = require('clean-css');
-import uglify = require('uglify-js');
+import * as CleanCSS from 'clean-css';
+import * as uglify from 'uglify-js';
 
 export function js(uncompressed) {
   // TODO: Ugify does not handle any errors. They appear
